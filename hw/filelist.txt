@@ -1,0 +1,60 @@
+#/******************************************************************************
+#* Copyright (c) Intel Corporation - All rights reserved.                      *
+#* This file is part of the LIBXSMM library.                                   *
+#*                                                                             *
+#* For information on the license, see the LICENSE file.                       *
+#* Further information: https://github.com/libxsmm/libxsmm/                    *
+#* SPDX-License-Identifier: BSD-3-Clause                                       *
+#******************************************************************************/
+#/* Rui Ma (Intel Corp.)
+#   Mario Doumet (Intel Corp.)
+#******************************************************************************/
+#
+# address_decode needs to be built
+
+./address_decode/address_decode.qsys
+./address_decode/ip/address_decode/address_decode_clk_csr.ip
+./address_decode/ip/address_decode/address_decode_eth_gen_mon.ip
+./address_decode/ip/address_decode/address_decode_merlin_master_translator_0.ip
+./address_decode/ip/address_decode/address_decode_mm_to_mac.ip
+./address_decode/ip/address_decode/address_decode_mm_to_phy.ip
+./address_decode/ip/address_decode/address_decode_rx_sc_fifo.ip
+./address_decode/ip/address_decode/address_decode_rx_xcvr_clk.ip
+./address_decode/ip/address_decode/address_decode_tx_sc_fifo.ip
+./address_decode/ip/address_decode/address_decode_tx_xcvr_clk.ip
+./address_decode/ip/address_decode/address_decode_tx_xcvr_half_clk.ip
+
+
+
+C:${IKL_FPGA_ROOT}/../hardware/pac_a10_40g/ikl_filelist.txt
+
+# Include MPF
+C:${FPGA_BBB_CCI_SRC}/BBB_cci_mpf/hw/rtl/cci_mpf_sources.txt
+
+# The standard AFU
+./fifo.v
+./all_reduce.sv
+./weight_update.sv
+./bfp_adapter.sv
+./bfp_to_bf16_core.sv
+./bf16_to_bfp_core.sv
+./max_u.sv
+./barrel_shifter.sv
+./a10_leading_zero_counter.sv
+./ccip_std_afu.sv
+./cci_mpf_app_conf.vh
+./cci_mpf_app_conf_default.vh
+./wu_cmd_fifo.ip
+./fadd.ip
+./ffma.ip
+./mult.ip
+./async_fifo.sdc
+
+# The data checker rtl example
+#./data_checker_out_rtl.sv
+#./data_checker_in_rtl.sv
+
+#Uncomment for signaltap debug...
+#QI:./iochan_stp.tcl
+
+./ikl_fpga.json

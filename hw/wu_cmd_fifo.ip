@@ -1,0 +1,575 @@
+<?xml version="1.0" ?>
+<spirit:component xmlns:altera="http://www.altera.com/XMLSchema/IPXact/extensions" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009">
+  <spirit:vendor>Intel Corporation</spirit:vendor>
+  <spirit:library>wu_cmd_fifo</spirit:library>
+  <spirit:name>fifo_0</spirit:name>
+  <spirit:version>17.1</spirit:version>
+  <spirit:busInterfaces>
+    <spirit:busInterface>
+      <spirit:name>fifo_input</spirit:name>
+      <spirit:busType spirit:vendor="altera" spirit:library="altera" spirit:name="conduit" spirit:version="17.1"></spirit:busType>
+      <spirit:slave></spirit:slave>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>datain</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>data</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>wrreq</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>wrreq</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>rdreq</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>rdreq</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>wrclk</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>wrclk</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>rdclk</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>rdclk</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>aclr</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>aclr</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>associatedClock</spirit:name>
+          <spirit:displayName>associatedClock</spirit:displayName>
+          <spirit:value spirit:format="string" spirit:id="associatedClock"></spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>associatedReset</spirit:name>
+          <spirit:displayName>associatedReset</spirit:displayName>
+          <spirit:value spirit:format="string" spirit:id="associatedReset"></spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>prSafe</spirit:name>
+          <spirit:displayName>Partial Reconfiguration Safe</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="prSafe">false</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+      <spirit:vendorExtensions>
+        <altera:altera_assignments>
+          <spirit:parameters>
+            <spirit:parameter>
+              <spirit:name>ui.blockdiagram.direction</spirit:name>
+              <spirit:value spirit:format="string" spirit:id="ui.blockdiagram.direction">input</spirit:value>
+            </spirit:parameter>
+          </spirit:parameters>
+        </altera:altera_assignments>
+      </spirit:vendorExtensions>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>fifo_output</spirit:name>
+      <spirit:busType spirit:vendor="altera" spirit:library="altera" spirit:name="conduit" spirit:version="17.1"></spirit:busType>
+      <spirit:slave></spirit:slave>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>dataout</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>q</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>rdempty</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>rdempty</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>wrfull</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>wrfull</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>associatedClock</spirit:name>
+          <spirit:displayName>associatedClock</spirit:displayName>
+          <spirit:value spirit:format="string" spirit:id="associatedClock"></spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>associatedReset</spirit:name>
+          <spirit:displayName>associatedReset</spirit:displayName>
+          <spirit:value spirit:format="string" spirit:id="associatedReset"></spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>prSafe</spirit:name>
+          <spirit:displayName>Partial Reconfiguration Safe</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="prSafe">false</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+      <spirit:vendorExtensions>
+        <altera:altera_assignments>
+          <spirit:parameters>
+            <spirit:parameter>
+              <spirit:name>ui.blockdiagram.direction</spirit:name>
+              <spirit:value spirit:format="string" spirit:id="ui.blockdiagram.direction">output</spirit:value>
+            </spirit:parameter>
+          </spirit:parameters>
+        </altera:altera_assignments>
+      </spirit:vendorExtensions>
+    </spirit:busInterface>
+  </spirit:busInterfaces>
+  <spirit:model>
+    <spirit:views>
+      <spirit:view>
+        <spirit:name>QUARTUS_SYNTH</spirit:name>
+        <spirit:envIdentifier>:quartus.altera.com:</spirit:envIdentifier>
+        <spirit:modelName>fifo</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>QUARTUS_SYNTH</spirit:localName>
+        </spirit:fileSetRef>
+      </spirit:view>
+    </spirit:views>
+    <spirit:ports>
+      <spirit:port>
+        <spirit:name>data</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left>0</spirit:left>
+            <spirit:right>74</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC_VECTOR</spirit:typeName>
+              <spirit:viewNameRef>QUARTUS_SYNTH</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>wrreq</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>QUARTUS_SYNTH</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>rdreq</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>QUARTUS_SYNTH</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>wrclk</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>QUARTUS_SYNTH</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>rdclk</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>QUARTUS_SYNTH</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>aclr</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>QUARTUS_SYNTH</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>q</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left>0</spirit:left>
+            <spirit:right>74</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC_VECTOR</spirit:typeName>
+              <spirit:viewNameRef>QUARTUS_SYNTH</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>rdempty</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>QUARTUS_SYNTH</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>wrfull</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>STD_LOGIC</spirit:typeName>
+              <spirit:viewNameRef>QUARTUS_SYNTH</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+    </spirit:ports>
+  </spirit:model>
+  <spirit:vendorExtensions>
+    <altera:entity_info>
+      <spirit:vendor>Intel Corporation</spirit:vendor>
+      <spirit:library>wu_cmd_fifo</spirit:library>
+      <spirit:name>fifo</spirit:name>
+      <spirit:version>17.1</spirit:version>
+    </altera:entity_info>
+    <altera:altera_module_parameters>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>DEVICE_FAMILY</spirit:name>
+          <spirit:displayName>Device Family</spirit:displayName>
+          <spirit:value spirit:format="string" spirit:id="DEVICE_FAMILY">Arria 10</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_Clock</spirit:name>
+          <spirit:displayName>Do you want a common clock for reading and writing the FIFO?</spirit:displayName>
+          <spirit:value spirit:format="long" spirit:id="GUI_Clock">4</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_CLOCKS_ARE_SYNCHRONIZED</spirit:name>
+          <spirit:displayName>Are the FIFO clocks synchronized?</spirit:displayName>
+          <spirit:value spirit:format="long" spirit:id="GUI_CLOCKS_ARE_SYNCHRONIZED">0</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_delaypipe</spirit:name>
+          <spirit:displayName>Which type of optimization do you want?</spirit:displayName>
+          <spirit:value spirit:format="long" spirit:id="GUI_delaypipe">5</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_synStage</spirit:name>
+          <spirit:displayName>How many sync stages?</spirit:displayName>
+          <spirit:value spirit:format="long" spirit:id="GUI_synStage">3</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_LegacyRREQ</spirit:name>
+          <spirit:displayName>Which kind of read access do you want with the 'rdreq' signal?</spirit:displayName>
+          <spirit:value spirit:format="long" spirit:id="GUI_LegacyRREQ">0</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_RAM_BLOCK_TYPE</spirit:name>
+          <spirit:displayName>What should the memory block type be?</spirit:displayName>
+          <spirit:value spirit:format="string" spirit:id="GUI_RAM_BLOCK_TYPE">Auto</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_Optimize</spirit:name>
+          <spirit:displayName>Would you like to register the output to maximize performance but use more area?</spirit:displayName>
+          <spirit:value spirit:format="long" spirit:id="GUI_Optimize">0</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_Optimize_max</spirit:name>
+          <spirit:displayName>Which type of optimization do you want?</spirit:displayName>
+          <spirit:value spirit:format="long" spirit:id="GUI_Optimize_max">0</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_Width</spirit:name>
+          <spirit:displayName>How wide should the FIFO be?</spirit:displayName>
+          <spirit:value spirit:format="long" spirit:id="GUI_Width">75</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_Depth</spirit:name>
+          <spirit:displayName>How deep should the FIFO be?</spirit:displayName>
+          <spirit:value spirit:format="long" spirit:id="GUI_Depth">256</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_output_width</spirit:name>
+          <spirit:displayName></spirit:displayName>
+          <spirit:value spirit:format="long" spirit:id="GUI_output_width">8</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_AlmostFullThr</spirit:name>
+          <spirit:displayName>becomes true when usedw[] is greater than or equal to</spirit:displayName>
+          <spirit:value spirit:format="long" spirit:id="GUI_AlmostFullThr">1</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_AlmostEmptyThr</spirit:name>
+          <spirit:displayName>becomes true when usedw[] is less than</spirit:displayName>
+          <spirit:value spirit:format="long" spirit:id="GUI_AlmostEmptyThr">1</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_MAX_DEPTH</spirit:name>
+          <spirit:displayName>Set the maximum block depth to</spirit:displayName>
+          <spirit:value spirit:format="string" spirit:id="GUI_MAX_DEPTH">Auto</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_DISABLE_DCFIFO_EMBEDDED_TIMING_CONSTRAINT</spirit:name>
+          <spirit:displayName>Generate SDC file and disable embedded timing constraint</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_DISABLE_DCFIFO_EMBEDDED_TIMING_CONSTRAINT">true</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_diff_widths</spirit:name>
+          <spirit:displayName>Use a different output width and set to</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_diff_widths">false</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_Full</spirit:name>
+          <spirit:displayName>full</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_Full">true</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_Empty</spirit:name>
+          <spirit:displayName>empty</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_Empty">true</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_UsedW</spirit:name>
+          <spirit:displayName>usedw[] (number of words in the FIFO)</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_UsedW">true</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_AlmostFull</spirit:name>
+          <spirit:displayName>almost full</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_AlmostFull">false</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_AlmostEmpty</spirit:name>
+          <spirit:displayName>almost empty</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_AlmostEmpty">false</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_sc_aclr</spirit:name>
+          <spirit:displayName>Asynchronous clear</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_sc_aclr">false</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_sc_sclr</spirit:name>
+          <spirit:displayName>Synchronous clear (flush the FIFO)</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_sc_sclr">false</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_rsFull</spirit:name>
+          <spirit:displayName>full</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_rsFull">false</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_rsEmpty</spirit:name>
+          <spirit:displayName>empty</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_rsEmpty">true</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_rsUsedW</spirit:name>
+          <spirit:displayName>usedw[]</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_rsUsedW">false</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_wsFull</spirit:name>
+          <spirit:displayName>full</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_wsFull">true</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_wsEmpty</spirit:name>
+          <spirit:displayName>empty</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_wsEmpty">false</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_wsUsedW</spirit:name>
+          <spirit:displayName>usedw[]</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_wsUsedW">false</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_msb_usedw</spirit:name>
+          <spirit:displayName>Add an extra MSB to usedw port(s)</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_msb_usedw">false</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_dc_aclr</spirit:name>
+          <spirit:displayName>Asynchronous clear</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_dc_aclr">true</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_write_aclr_synch</spirit:name>
+          <spirit:displayName>Add circuit to synchronize 'aclr' input with 'wrclk'</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_write_aclr_synch">false</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_read_aclr_synch</spirit:name>
+          <spirit:displayName>Add circuit to synchronize 'aclr' input with 'rdclk'</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_read_aclr_synch">false</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_OVERFLOW_CHECKING</spirit:name>
+          <spirit:displayName>Disable overflow checking. Writing to a full FIFO will corrupt contents.</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_OVERFLOW_CHECKING">false</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_UNDERFLOW_CHECKING</spirit:name>
+          <spirit:displayName>Disable underflow checking. Reading from an empty FIFO will corrupt contents.</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_UNDERFLOW_CHECKING">false</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_LE_BasedFIFO</spirit:name>
+          <spirit:displayName>Implement FIFO storage with logic cells only, even if the device contains memory blocks.</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_LE_BasedFIFO">false</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_MAX_DEPTH_BY_9</spirit:name>
+          <spirit:displayName>Reduce RAM usage (decreases speed and increases number of Les). Available if data width is divisible by 9.</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_MAX_DEPTH_BY_9">false</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_ENABLE_ECC</spirit:name>
+          <spirit:displayName>Enable error checking and correcting (ECC)</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="GUI_ENABLE_ECC">false</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_Usedw_width</spirit:name>
+          <spirit:displayName>GUI_Usedw_width</spirit:displayName>
+          <spirit:value spirit:format="long" spirit:id="GUI_Usedw_width">8</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_RdUsedw_width</spirit:name>
+          <spirit:displayName>GUI_RdUsedw_width</spirit:displayName>
+          <spirit:value spirit:format="long" spirit:id="GUI_RdUsedw_width">8</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>GUI_WrUsedw_width</spirit:name>
+          <spirit:displayName>GUI_WrUsedw_width</spirit:displayName>
+          <spirit:value spirit:format="long" spirit:id="GUI_WrUsedw_width">8</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </altera:altera_module_parameters>
+    <altera:altera_system_parameters>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>device</spirit:name>
+          <spirit:displayName>Device</spirit:displayName>
+          <spirit:value spirit:format="string" spirit:id="device">10AX115N2F40E2LG</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>deviceFamily</spirit:name>
+          <spirit:displayName>Device family</spirit:displayName>
+          <spirit:value spirit:format="string" spirit:id="deviceFamily">Arria 10</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>deviceSpeedGrade</spirit:name>
+          <spirit:displayName>Device Speed Grade</spirit:displayName>
+          <spirit:value spirit:format="string" spirit:id="deviceSpeedGrade">2</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>generationId</spirit:name>
+          <spirit:displayName>Generation Id</spirit:displayName>
+          <spirit:value spirit:format="long" spirit:id="generationId">0</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>bonusData</spirit:name>
+          <spirit:displayName>bonusData</spirit:displayName>
+          <spirit:value spirit:format="string" spirit:id="bonusData">bonusData 
+{
+   element fifo_0
+   {
+      datum _sortIndex
+      {
+         value = "0";
+         type = "int";
+      }
+   }
+}
+</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>hideFromIPCatalog</spirit:name>
+          <spirit:displayName>Hide from IP Catalog</spirit:displayName>
+          <spirit:value spirit:format="bool" spirit:id="hideFromIPCatalog">true</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>lockedInterfaceDefinition</spirit:name>
+          <spirit:displayName>lockedInterfaceDefinition</spirit:displayName>
+          <spirit:value spirit:format="string" spirit:id="lockedInterfaceDefinition"></spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>systemInfos</spirit:name>
+          <spirit:displayName>systemInfos</spirit:displayName>
+          <spirit:value spirit:format="string" spirit:id="systemInfos"><![CDATA[<systemInfosDefinition>
+    <connPtSystemInfos/>
+</systemInfosDefinition>]]></spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </altera:altera_system_parameters>
+    <altera:altera_interface_boundary>
+      <altera:interface_mapping altera:name="fifo_input" altera:internal="fifo_0.fifo_input" altera:type="conduit" altera:dir="end">
+        <altera:port_mapping altera:name="aclr" altera:internal="aclr"></altera:port_mapping>
+        <altera:port_mapping altera:name="data" altera:internal="data"></altera:port_mapping>
+        <altera:port_mapping altera:name="rdclk" altera:internal="rdclk"></altera:port_mapping>
+        <altera:port_mapping altera:name="rdreq" altera:internal="rdreq"></altera:port_mapping>
+        <altera:port_mapping altera:name="wrclk" altera:internal="wrclk"></altera:port_mapping>
+        <altera:port_mapping altera:name="wrreq" altera:internal="wrreq"></altera:port_mapping>
+      </altera:interface_mapping>
+      <altera:interface_mapping altera:name="fifo_output" altera:internal="fifo_0.fifo_output" altera:type="conduit" altera:dir="end">
+        <altera:port_mapping altera:name="q" altera:internal="q"></altera:port_mapping>
+        <altera:port_mapping altera:name="rdempty" altera:internal="rdempty"></altera:port_mapping>
+        <altera:port_mapping altera:name="wrfull" altera:internal="wrfull"></altera:port_mapping>
+      </altera:interface_mapping>
+    </altera:altera_interface_boundary>
+    <altera:altera_has_warnings>false</altera:altera_has_warnings>
+    <altera:altera_has_errors>false</altera:altera_has_errors>
+  </spirit:vendorExtensions>
+</spirit:component>
