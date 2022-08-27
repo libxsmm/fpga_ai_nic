@@ -1,0 +1,5 @@
+Some files were removed for confidentiality purposes. Please contact the owner of the repo to request access to those files.
+
+There is a bug in which the run does not complete and runs forever. This happens sometimes but not always and I did not have the time to find it before the end of my internship.
+My debugging shows that it has to do with OPAE reads and writes to on-board memory that sometimes do not complete. 
+If you find the bug, please feel free to contact anyone to make the necessary fixes  

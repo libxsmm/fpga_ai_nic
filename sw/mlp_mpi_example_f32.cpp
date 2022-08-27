@@ -3,10 +3,10 @@
 * This file is part of the LIBXSMM library.                                   *
 *                                                                             *
 * For information on the license, see the LICENSE file.                       *
-* Further information: https://github.com/libxsmm/libxsmm/                    *
+* Further information: https://github.com/hfp/libxsmm/                        *
 * SPDX-License-Identifier: BSD-3-Clause                                       *
 ******************************************************************************/
-/* Evangelos Georganas, Rui Ma (Intel Corp.)
+/* Evangelos Georganas, Rui Ma, Mario Doumet (Intel Corp.)
 ******************************************************************************/
 #include <libxsmm_dnn.h>
 #include <dnn_common.h>
@@ -18,6 +18,7 @@
 #include <math.h>
 #if defined(_OPENMP)
 # include <omp.h>
+#include <iostream>
 #endif
 
 #include "opae_svc_wrapper.h"
@@ -56,7 +57,7 @@ int ikl_setup() {
     system_cmd_result = system(commandline);
 
     //setup ikl ethernet routing table
-    snprintf( commandline, sizeof (commandline), "./setup_route %d", NUM_NODES);
+    snprintf( commandline, sizeof (commandline), "./setup_route.sh %d", NUM_NODES);
     system_cmd_result = system(commandline);
     return system_cmd_result;
 }
@@ -110,7 +111,7 @@ uint64_t get_host_stall_cycles(OPAE_SVC_WRAPPER &fpga) {
     return reg_data;
 }
 
-int all_reduce(volatile float* buf, volatile uint32_t* done, int count, OPAE_SVC_WRAPPER &fpga, fpga_rqst *rqst_id) {
+int all_reduce(volatile float* buf, volatile float* weight_out, volatile float * flags, volatile uint32_t* done, int count, OPAE_SVC_WRAPPER &fpga, fpga_rqst *rqst_id) {
     done[done_idx << 4] = 0;
     rqst_id->idx = done_idx;
     if (done_idx == 7) done_idx = 0;
@@ -130,6 +131,22 @@ int all_reduce(volatile float* buf, volatile uint32_t* done, int count, OPAE_SVC
     // reg_data = fpga.read_csr64(IKA_RD_DATA);
     // printf("mem_addr_h: %lx\n", reg_data);
 
+	 //Send the weight address over
+	 tmp = intptr_t(weight_out) >> 6;
+    fpga.write_csr64(IKA_WR_DATA, tmp);
+    fpga.write_csr64(IKA_CTRL_ADDR, (0x13000 | (0x54>>2)));
+    fpga.write_csr64(IKA_CTRL_ADDR, (0x23000 | (0x54>>2)));
+ 
+    fpga.write_csr64(IKA_WR_DATA, (tmp>>32));
+    fpga.write_csr64(IKA_CTRL_ADDR, (0x13000 | (0x58>>2)));
+    fpga.write_csr64(IKA_CTRL_ADDR, (0x23000 | (0x58>>2)));
+
+	 //Send the flags over
+	 tmp = intptr_t(flags); 
+    fpga.write_csr64(IKA_WR_DATA, tmp);
+    fpga.write_csr64(IKA_CTRL_ADDR, (0x13000 | (0x5C>>2)));
+    fpga.write_csr64(IKA_CTRL_ADDR, (0x23000 | (0x5C>>2)));
+ 
     //Send start signal
     fpga.write_csr64(IKA_WR_DATA, 1);
     fpga.write_csr64(IKA_CTRL_ADDR, (0x13000 | (0x0>>2)));
@@ -183,7 +200,7 @@ int main(int argc, char* argv[])
 
   float **act_libxsmm, **ref_act_libxsmm, **fil_libxsmm, **delact_libxsmm, **ref_delact_libxsmm;
   float **delfil_libxsmm;
-  ptr_t* delfil;
+  ptr_t* delfil, *fil;
   float **bias_libxsmm, **delbias_libxsmm;
   unsigned char **relumask_libxsmm;
   int *label_libxsmm;
@@ -267,6 +284,9 @@ int main(int argc, char* argv[])
   /* reading new values from cli */
   i = 1;
   num_layers = argc - 9;
+  for (int j=1; j<argc; j++){
+    std::cout << argv[j] << " " << j << std::endl;
+  }
   if (argc > i) iters      = atoi(argv[i++]);
   if (argc > i) global_MB  = atoi(argv[i++]);
   if (argc > i) fuse_type  = atoi(argv[i++]);
@@ -371,9 +391,11 @@ int main(int argc, char* argv[])
   }
   fil_libxsmm    = (float**)malloc( num_layers*sizeof(float*) );
   delfil_libxsmm = (float**)malloc( num_layers*sizeof(float*) );
+  fil = new ptr_t[num_layers];
   delfil = new ptr_t[num_layers];
   for ( i = 0 ; i < num_layers; ++i ) {
-    fil_libxsmm[i]                = (float*)libxsmm_aligned_malloc( C[i]*C[i+1]*sizeof(float), 2097152);
+	 fil[i] = fpga.allocBuffer(C[i]*C[i+1]*sizeof(float));
+    fil_libxsmm[i] = const_cast<float*>(reinterpret_cast<volatile float*>((fil[i])->c_type()));
     delfil[i] = fpga.allocBuffer(C[i]*C[i+1]*sizeof(float));
     delfil_libxsmm[i] = const_cast<float*>(reinterpret_cast<volatile float*>((delfil[i])->c_type()));
   }
@@ -675,6 +697,7 @@ int main(int argc, char* argv[])
       const int tid = 0;
 #endif
       unsigned long long t0, t1;
+		float * flags = (float*) 0x1;
       for (j = 0; j < iters; ++j) {
 #ifdef DETAILED_PROFILE
         if (tid == 0) {
@@ -726,39 +749,42 @@ int main(int argc, char* argv[])
             }
           }
 #endif
-          /* Thread 0 issues asynchronous all reduce */
-          if (tid == 0) {
-            all_reduce(delfil_libxsmm[i], done_buf, C[i]*C[i+1], fpga, &request[i%2]);
+          /* Thread 0 issues asynchronous all reduce */ 
+			 if (tid == 0) {
+            all_reduce(delfil_libxsmm[i], fil_libxsmm[i], flags, done_buf, C[i]*C[i+1], fpga, &request[i%2]);
+				flags = (float*) 0;
           }
           if (i < num_layers-1) {
             /* Wait for the MPI_Iallreduce issued in the previous iteration to complete */
             if (tid == 0) {
               wait(done_buf, &request[(i+1)%2]);
             }
-            /* All threads wait for the all-reduce to complete in order to execute the optimizer... */
+				
+			   /* All threads wait for the all-reduce to complete in order to execute the optimizer... */
             #pragma omp barrier
-            libxsmm_dnn_opt_exec_f32( libxsmm_dnn_opt[i+1], fil_libxsmm[i+1], delfil_libxsmm[i+1], 0, tid, scratch );
+            //libxsmm_dnn_opt_exec_f32( libxsmm_dnn_opt[i+1], fil_libxsmm[i+1], delfil_libxsmm[i+1], 0, tid, scratch );
+						
           }
         }
         /* Only UPD pass for first layer */
         libxsmm_dnn_fc_bwd_exec_f32( libxsmm_dnn_fc_bwd[0], fil_libxsmm[0], delact_libxsmm[0], delact_libxsmm[0+1], delfil_libxsmm[0],
                         act_libxsmm[0], delbias_libxsmm[0], relumask_libxsmm[0], LIBXSMM_DNN_FC_PASS_BWD_W, 0, tid, scratch );
         if (tid == 0) {
-          all_reduce(delfil_libxsmm[0], done_buf, C[0]*C[1], fpga, &request[0]);
+          all_reduce(delfil_libxsmm[0], fil_libxsmm[0], flags, done_buf, C[0]*C[1], fpga, &request[0]);
         }
         if (tid == 0) {
           wait(done_buf, &request[1]);
         }
         /* All threads wait for the all-reduce to complete in order to execute the optimizer... */
         #pragma omp barrier
-        libxsmm_dnn_opt_exec_f32( libxsmm_dnn_opt[1], fil_libxsmm[1], delfil_libxsmm[1], 0, tid, scratch );
+        //libxsmm_dnn_opt_exec_f32( libxsmm_dnn_opt[1], fil_libxsmm[1], delfil_libxsmm[1], 0, tid, scratch );
 
         if (tid == 0) {
           wait(done_buf, &request[0]);
         }
         /* All threads wait for the all-reduce to complete in order to execute the optimizer... */
         #pragma omp barrier
-        libxsmm_dnn_opt_exec_f32( libxsmm_dnn_opt[0], fil_libxsmm[0], delfil_libxsmm[0], 0, tid, scratch );
+        //libxsmm_dnn_opt_exec_f32( libxsmm_dnn_opt[0], fil_libxsmm[0], delfil_libxsmm[0], 0, tid, scratch );
       }
     }
     MPI_Barrier(MPI_COMM_WORLD);
@@ -812,7 +838,7 @@ int main(int argc, char* argv[])
     libxsmm_free(act_libxsmm[i+1]);
     libxsmm_free(delact_libxsmm[i+1]);
 
-    libxsmm_free(fil_libxsmm[i]);
+    //libxsmm_free(fil_libxsmm[i]);
     // libxsmm_free(delfil_libxsmm[i]);
     libxsmm_free(bias_libxsmm[i]);
     libxsmm_free(delbias_libxsmm[i]);
@@ -832,7 +858,7 @@ int main(int argc, char* argv[])
   free( libxsmm_dnn_opt );
   free( libxsmm_dnn_fc_fwd );
   free( libxsmm_dnn_fc_bwd );
-
+  delete [] fil;
   delete [] delfil;
 
   free( C );

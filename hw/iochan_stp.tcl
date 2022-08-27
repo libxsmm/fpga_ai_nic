@@ -17,13 +17,6 @@
 # alter this notice or any other notice embedded in Materials by Intel
 # or Intel's suppliers or licensors in any way.
 # ***********************************************************************
-# The ccip_std_afu.sv file is confidential and missing. Please contact the owner of the repo if you need access to it
-all: address_decode
-	afu_synth_setup --source filelist.txt build
-	\cd build; $(OPAE_PLATFORM_ROOT)/bin/run.sh
-
-address_decode:
-	\cp -r ${IKL_FPGA_ROOT}/../hardware/pac_a10_40g/build/ikl/a10_specific/address_decode .
-clean:
-	\rm -rf build
-	\rm -rf address_decode
+#
+set_global_assignment -name ENABLE_SIGNALTAP ON
+set_global_assignment -name USE_SIGNALTAP_FILE ./iochan.stp

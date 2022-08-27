@@ -7,12 +7,13 @@
 # SPDX-License-Identifier: BSD-3-Clause                                       #
 ###############################################################################
 # Rui Ma (Intel Corp.)
+# Mario Doumet
 ###############################################################################
 export OMP_NUM_THREADS=28
 export KMP_AFFINITY=granularity=fine,compact,1,0
 export I_MPI_DEBUG=4
 #export LIBXSMM_VERBOSE=-1
-mpirun -f hostlist -n 3 -ppn 1 numactl --interleave=all ./mlp_mpi_example_f32 3 20 5376 0 A 32 32 32 2048 2048 2048 2048 2048 2048 2048 2048 2048 2048 2048
+mpirun -f hostlist -n 3 -ppn 1 numactl --interleave=all ./mlp_mpi_example_f32 20 5376 0 A 32 32 32 2048 2048 2048 2048 2048 2048 2048 2048 2048 2048 2048
 #for node in 6
 #do
 #	ln -f -s ./config/ikl_config_n6 ikl_config
