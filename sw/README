@@ -1,0 +1,3 @@
+This folder should also have the files hostlist and ikl_config
+Hostlist contains the node names (one on each line)
+ikl_config is the file necessary for ikl configurations
